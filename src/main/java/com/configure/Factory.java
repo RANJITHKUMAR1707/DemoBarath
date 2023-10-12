@@ -38,7 +38,7 @@ public class Factory extends Browser {
 	 * @throws IOException
 	 */
 	public static String createReportPath() throws IOException {
-		File file=new File("./src/test/resources/config/data.properties");
+		File file=new File("./src/main/resources/config/data.properties");
 		FileInputStream fis= new FileInputStream(file);
 		Properties props = new Properties();
 		props.load(fis);

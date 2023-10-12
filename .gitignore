@@ -1,1 +1,5 @@
 /target/
+/extent-report/
+/log4j.properties
+/test-output/
+/src/

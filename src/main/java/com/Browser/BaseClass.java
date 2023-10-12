@@ -1,4 +1,4 @@
-package com.test;
+package com.Browser;
 
 
 import java.awt.AWTException;
@@ -40,7 +40,7 @@ import com.configure.config;
  * Base Class
  */	
 public class BaseClass extends Browser {
-	
+
 	/**
 	 * Get the current Browser URL
 	 * @return Actual Url
@@ -53,8 +53,12 @@ public class BaseClass extends Browser {
 	 * @param element enter the webelement
 	 * @return element text
 	 */
-	private static String Gettext(WebElement element) {
+	public static String Gettext(WebElement element) {
 		return element.getText();
+	}
+
+	public static int convertstringtoint(String value) {
+		return Integer.valueOf(value);  
 	}
 	/**
 	 * get the attribute value
@@ -92,11 +96,11 @@ public class BaseClass extends Browser {
 		Extentlogger.info(Text+" is Selected");
 	}
 
-/**
- * get all option's and print in extent report
- */
+	/**
+	 * get all option's and print in extent report
+	 */
 	public static void GetAlloptions(Select select) {
-	
+
 		Extentlogger.Reportlistofdata(select.getOptions());
 	}
 	/**
@@ -104,7 +108,7 @@ public class BaseClass extends Browser {
 	 * @param element given an webelement
 	 * @param value enter the value that will send
 	 */
-	public static void sendkeywithenter(WebElement element,String value) {
+	private static void sendkeywithenter(WebElement element,String value) {
 		clickelement(element);
 		element.sendKeys(value,Keys.BACK_SPACE);
 		wait3sec();;
@@ -115,6 +119,19 @@ public class BaseClass extends Browser {
 			Extentlogger.pass(value+" is entered in successfully",false);
 		}
 
+	}
+
+	/**
+	 * send keys with clear the field
+	 */
+	public static void sendkeyswithclear(WebElement element,String value) {
+		clear(element);
+		element.sendKeys(value);
+		if(!Getattribute(element,"placeholder").isEmpty()) {
+			Extentlogger.pass(value+" is entered in "+Getattribute(element,"placeholder")+" successfully",false);
+		}else {
+			Extentlogger.pass(value+" is entered in successfully",false);
+		}
 	}
 	/**
 	 * Element is display or not
@@ -139,7 +156,6 @@ public class BaseClass extends Browser {
 	private static void assertEquals(String Actual,String Expected) {
 		Softassert.assertEquals(Actual,Expected);
 		Extentlogger.info("The Actual Result is "+Actual);
-
 	}
 	/**
 	 * assert true get the boolean value
@@ -189,8 +205,30 @@ public class BaseClass extends Browser {
 	public static void verifyisalldisplay(List<WebElement> element) {
 		for(int i=0;i<element.size();i++) {
 			asserttrue(isdisplay(element.get(i)));
-
-
+		}
+	}
+	/**
+	 * get boolen value of find isselected
+	 * @param element
+	 * @return
+	 */
+	public static Boolean isSelected(WebElement element) {
+		if(!Gettext(element).isEmpty()) {
+			Extentlogger.info(Gettext(element)+" is Selected ");
+			return element.isSelected();
+		}else {
+			return element.isSelected();
+		}
+	}
+	public static void clear(WebElement element) {
+		try {
+			String value = Getattribute(element, "value");
+			element.clear();
+			if(!value.isEmpty()) {
+				Extentlogger.pass(value+" is Cleared", false);
+			}
+		}
+		catch (WebDriverException e) {
 		}
 	}
 	/**
@@ -384,7 +422,18 @@ public class BaseClass extends Browser {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * random emailid with random number
+	 * @param emailbody
+	 * @return
+	 */
+	public static String Randomemail(String emailbody) {
+		double number = Math.random()*999;
+		int emailadd=(int)number;
+		System.out.println(emailadd);
+		return emailbody.concat(emailadd+"@gmail.com");
 
+	}
 
 }
 

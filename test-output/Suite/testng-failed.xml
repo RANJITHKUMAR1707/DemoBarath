@@ -8,14 +8,16 @@
   <test thread-count="5" name="Test(failed)">
     <parameter name="Browser" value="Chrome"/>
     <classes>
-      <class name="com.test.Login">
+      <class name="com.test.MyAccount">
         <methods>
+          <include name="AddaddressbookTC_011" invocation-numbers="0"/>
+          <include name="deletealladressbook_012"/>
           <include name="BeforeLaunchingbrowser"/>
           <include name="LaunchBrowser"/>
-          <include name="INValidLoginTC_002"/>
+          <include name="endofprogram"/>
           <include name="CloseBrowser"/>
         </methods>
-      </class> <!-- com.test.Login -->
+      </class> <!-- com.test.MyAccount -->
     </classes>
   </test> <!-- Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->

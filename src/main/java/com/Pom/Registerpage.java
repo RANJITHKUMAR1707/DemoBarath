@@ -2,14 +2,15 @@ package com.Pom;
 
 import java.util.List;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.test.BaseClass;
+import com.Browser.BaseClass;
+
+
 
 public class Registerpage extends BaseClass{
-	
+	public static String Emailentered;
 
 	@FindBy(xpath="//input[@name='firstname']")
 	private static WebElement Firstname;
@@ -40,7 +41,6 @@ public class Registerpage extends BaseClass{
 	@FindBy(xpath="//input[@type='submit']")
 	private static WebElement buttons;
 
-
 	@FindBy(xpath="//div[@class='text-danger']")
 	private static WebElement errormessage;
 
@@ -58,12 +58,13 @@ public class Registerpage extends BaseClass{
 
 	@FindBy(xpath="//div[contains(@class,'alert-danger')]")
 	public static WebElement Loginpageerror;
-	
+
 	@FindBy(xpath="//a[contains(.,'Continue')]")
-	private static WebElement LoginContinuebutton;
-	
+	private static WebElement Continuebutton;
+
 	@FindBy(xpath="//div/a[contains(.,'Logout')]")
 	private static WebElement Logout;
+
 	/**
 	 * Register a few user's
 	 * @param firstname enter your first name
@@ -72,17 +73,12 @@ public class Registerpage extends BaseClass{
 	 * @param phone enter your phone number
 	 * @param password enter your password
 	 * @param confirmpassword enter the confirm passwrod
-	 * @param neednewsletter need news letter yes or  no
-	 * @param acceptprivatepolicy need to accept the private policy?
 	 */
-	public static void Registeruser(String firstname,String lastname,String email,String phone,String password,
-			String confirmpassword,String neednewsletter,String acceptprivatepolicy) {
+	public static void ValidRegisteruser(String firstname,String lastname,String email,String phone,String password,
+			String confirmpassword) {
+
 		Dashboardpage.NavigatetoRegisterpage();
-		String Emailentered;
-		double number = Math.random()*999;
-		int emailadd=(int)number;
-		System.out.println(emailadd);
-		Emailentered=email.concat(emailadd+"@gmail.com");
+		Emailentered=Randomemail(email);
 		sendkeys(Firstname, firstname);
 		sendkeys(Lastname, lastname);
 		sendkeys(Emailid, Emailentered);
@@ -90,40 +86,61 @@ public class Registerpage extends BaseClass{
 		sendkeys(Password, password);
 		sendkeys(ConfirmPassword, confirmpassword);
 
-		if(neednewsletter.equalsIgnoreCase("Yes")) {
+		if(!isSelected(YesNewsletter)) {
 			clickelement(YesNewsletter);
 		}
 
-		if(acceptprivatepolicy.equalsIgnoreCase("Yes")) {
+		if(!isSelected(privacypolicy)) {
 			clickelement(privacypolicy);
+		}
+		clickelement(buttons);
+
+		if(firstname.isEmpty()||lastname.isEmpty()||email.isEmpty()||phone.isEmpty()||phone.isEmpty()) {
+			verifyisalldisplay(fielderror);
+		}else if(!confirmpassword.equals(password)) {
+			verifyisdisplay(passwordmismatch);
+		} else {
+			verifyisdisplay(Registersuccessfullmessage);
+		}
+
+	}
+
+
+	/**
+	 * verify the error message display when user not select the privacy polllicy
+	 * @param firstname enter your first name
+	 * @param lastname enter your lastname
+	 * @param email enter your email(only name)
+	 * @param phone enter your phone number
+	 * @param password enter your password
+	 * @param confirmpassword enter the confirm passwrod
+	 */
+	public static void notselectprivacypolicy(String firstname,String lastname,String email,String phone,String password,
+			String confirmpassword) {
+
+		Dashboardpage.NavigatetoRegisterpage();
+		sendkeys(Firstname, firstname);
+		sendkeys(Lastname, lastname);
+		sendkeys(Emailid, email);
+		sendkeys(Phone, phone);
+		sendkeys(Password, password);
+		sendkeys(ConfirmPassword, confirmpassword);
+
+		if(!isSelected(YesNewsletter)) {
+			clickelement(YesNewsletter);
 		}
 
 		clickelement(buttons);
 
-
-		if(!acceptprivatepolicy.equalsIgnoreCase("Yes")) {
-			verifyisdisplay(privacypolicyerrormessage);
-		}
-		if(firstname.isEmpty()||lastname.isEmpty()||email.isEmpty()||phone.isEmpty()||phone.isEmpty()) {
-			verifyisalldisplay(fielderror);
-		}
-		if(!confirmpassword.equals(password)) {
-			verifyisdisplay(passwordmismatch);
-		}
-
-		try {
-			if(isdisplay(Registersuccessfullmessage)) {
-				verifyisdisplay(Registersuccessfullmessage);
-			}
-		}catch (NoSuchElementException e) {
-		}
-
+		verifyisdisplay(privacypolicyerrormessage);
 	}
-/**
- * Login to the website 
- * @param Email enter the email id
- * @param password enter the password
- */
+
+
+	/**
+	 * Login to the website 
+	 * @param Email enter the email id
+	 * @param password enter the password
+	 */
 	public static void Login(String Email, String password) {
 		Dashboardpage.NavigatetoLoginpage();
 		sendkeys(Emailid, Email);
@@ -134,13 +151,22 @@ public class Registerpage extends BaseClass{
 	 * navigate to register page from the login page
 	 */
 	public static void checkabletonavigateregisterpage() {
-		clickelement(LoginContinuebutton);
+		clickelement(Continuebutton);
 		verifytitle("Register Account");
 	}
 
-public static void Logout() {
-	clickelement(Logout);
-	verifytitle("Account Logout");
-	clickelement(LoginContinuebutton);
-}
+	public static void Logoutusingcolumnoption() {
+		clickelement(Logout);
+		verifytitle("Account Logout");
+		clickelement(Continuebutton);
+		verifytitle("Your Store");
+	}
+
+	public static void logoutusingdrowndown() {
+		Dashboardpage.logoutusingdrowndown();
+		verifytitle("Account Logout");
+		clickelement(Continuebutton);
+		verifytitle("Your Store");
+	}
+
 }

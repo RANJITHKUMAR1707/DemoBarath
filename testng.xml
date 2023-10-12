@@ -11,6 +11,7 @@
       <class name="com.test.Register"/>
       <class name="com.test.Login"/>
          <class name="com.test.MyAccount"/>
+<class name="com.test.Searchproduct"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

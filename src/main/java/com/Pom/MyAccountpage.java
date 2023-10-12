@@ -1,16 +1,19 @@
 package com.Pom;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.test.BaseClass;
+import com.Browser.BaseClass;
+
 
 public class MyAccountpage extends BaseClass {
 
 	@FindBy(xpath="//div/a[contains(.,'Edit Account')]")
 	private static WebElement EditAccount;
 
-	@FindBy(xpath="//div/a[contains(.,'Password')]")
+	@FindBy(xpath="//div/a[.='Password']")
 	private static WebElement PasswordAccount;
 
 	@FindBy(xpath="//div/a[contains(.,'Address Book')]")
@@ -26,6 +29,9 @@ public class MyAccountpage extends BaseClass {
 	@FindBy(xpath="//div/a[contains(.,'Downloads')]")
 	private static WebElement Downloads;
 
+	@FindBy(xpath="//input[@name='email']")
+	private static WebElement Emailid;
+
 	@FindBy(xpath="//div/input[@name='telephone']")
 	private static WebElement Telephone;
 
@@ -33,7 +39,7 @@ public class MyAccountpage extends BaseClass {
 	private static WebElement Continuebutton;
 
 	@FindBy(xpath="//div[contains(@class,'alert-success')]")
-	private static WebElement Successmessage;
+	public static WebElement Successmessage;
 
 
 	@FindBy(xpath="//input[@name='password']")
@@ -75,11 +81,26 @@ public class MyAccountpage extends BaseClass {
 	@FindBy(xpath="//select[@id='input-zone']")
 	private static WebElement State;
 
-	public static void EditProfile(String EditPhonenumber) {
+	@FindBy(xpath="//label[contains(.,'Yes')]/input")
+	private static WebElement YesDefaultbutton;
+
+	@FindBy(xpath="//td[@class='text-left']")
+	private static List<WebElement> Addresses;
+
+	@FindBy(xpath="//a[contains(.,'Delete')]")
+	private static List<WebElement> Deleteaddress;
+
+	@FindBy(xpath="//div[contains(@class,'alert-warning')]")
+	private static WebElement Deletealertwarning;
+
+	public static void EditProfile(String EditPhonenumber,String email) {
 		clickelement(EditAccount);
-		Telephone.clear();
+		clear(Telephone);
 		sendkeys(Telephone, EditPhonenumber);
+		clear(Emailid);
+		sendkeys(Emailid, email);
 		clickelement(Continuebutton);
+
 		verifyisdisplay(Successmessage);
 	}
 
@@ -109,7 +130,26 @@ public class MyAccountpage extends BaseClass {
 		sendkeys(Postcode,postcode);
 		selectbyvisibletext(Country, country);
 		selectbyvisibletext(State,state);
+		if(!isSelected(YesDefaultbutton)) {
+			clickelement(YesDefaultbutton);
+		}
 		clickelement(Continuebutton);
 		verifyisdisplay(Successmessage);
+	}
+
+	public static void deleteaddress() {
+		clickelement(AddressBook);
+		while (true) {
+			Deleteaddress.get(0).click();
+			if(Addresses.size()==1) {
+				verifyisdisplay(Deletealertwarning);
+				break;
+			}else {
+				verifyisdisplay(Successmessage);
+			}
+
+		}
+
+
 	}
 }

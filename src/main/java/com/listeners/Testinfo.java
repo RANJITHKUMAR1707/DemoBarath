@@ -5,9 +5,10 @@ import org.testng.ISuiteListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import com.Browser.BaseClass;
 import com.ExtentReport.ExtentReport;
 import com.ExtentReport.Extentlogger;
-import com.test.BaseClass;
+
 
 public class Testinfo extends BaseClass implements ITestListener,ISuiteListener{
 	

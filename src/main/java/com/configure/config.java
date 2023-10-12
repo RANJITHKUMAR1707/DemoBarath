@@ -24,7 +24,7 @@ public class config extends Browser {
 	 * @throws IOException
 	 */
 	public static void Getdatafrompropertiesfile() throws IOException {
-		File file=new File("./src/test/resources/config/data.properties");
+		File file=new File("./src/main/resources/config/data.properties");
 		FileInputStream fis= new FileInputStream(file);
 		prop = new Properties();
 		prop.load(fis);
