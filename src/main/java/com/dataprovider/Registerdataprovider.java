@@ -15,7 +15,7 @@ public class Registerdataprovider {
 		@DataProvider(name = "Register")
 		public String[][] Registerdataprovider() throws IOException{
 
-				File file=new File("./src/test/resources/config/Datareadfromexcel.xlsx");
+				File file=new File("./src/main/resources/config/Datareadfromexcel.xlsx");
 				FileInputStream fis=new FileInputStream(file);
 				XSSFWorkbook workbook=new XSSFWorkbook(fis);
 				XSSFSheet sheet=workbook.getSheet("Register");

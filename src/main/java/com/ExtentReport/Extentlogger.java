@@ -10,9 +10,10 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 
+import com.Browser.BaseClass;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.test.BaseClass;
+
 
 
 public class Extentlogger extends BaseClass {

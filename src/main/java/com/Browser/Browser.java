@@ -10,6 +10,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
@@ -18,18 +19,18 @@ import org.testng.asserts.SoftAssert;
 import com.ExtentReport.ExtentReport;
 import com.configure.Factory;
 import com.configure.config;
-import com.test.BaseClass;
+
 
 public class Browser {
 
 	public static WebDriver driver;
-	
+
 	public static SoftAssert Softassert;
 	public static Capabilities capabilities;
 	static String BrowserName;
 	static String BrowserVersion;
 	public static Properties prop;
-	
+
 
 	@BeforeSuite
 	public static void BeforeLaunchingbrowser() throws IOException {
@@ -61,21 +62,25 @@ public class Browser {
 		}
 
 		driver.get(prop.getProperty("URL"));
-
+		driver.manage().window().maximize();
 		BaseClass.implictwait(30);
 		Factory.initelements();
-	
+
 	}
 	/**
 	 * Close the Browser
 	 * @throws IOException 
 	 */
 	@AfterMethod	
-	public void CloseBrowser() throws IOException {
+	public void CloseBrowser() {
 		driver.quit();
-		Softassert.assertAll();
+
 	}
 
+	@AfterSuite
+	public void endofprogram() {
+		Softassert.assertAll();
+	}
 	public static void Browserinfo() {
 		ExtentReport.extent.setSystemInfo("Browser Name",BrowserName);
 		ExtentReport.extent.setSystemInfo("Browser Version",BrowserVersion);
